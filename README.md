@@ -12,7 +12,7 @@ duplicate the functionality in .../txtutil (written originally in Go,
 
 * CppUTest framework installed at the same directory level as this project.
 * cpputest starter project unpacked somewhere convenient and copied to this
-  project's root directory.
+  project's root directory. (This is installed and copied into this project.)
 
 
 ## Procedure
@@ -26,3 +26,7 @@ export CPPUTEST_HOME=../../cpputest
 make
 ```
 
+## TODO
+
+* Pull to a clean directory and verify that project still builds.
+* Remove superfluous files from `c-txtutil/cpputest-starter-project/`

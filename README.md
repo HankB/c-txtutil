@@ -35,5 +35,6 @@ make
 
 * cmake instructions did not work for cpputest. (Even after typing 
  `cmake CMakeLists.txt` instead of `cmake CMakeList.txt`
-* In Debian need to install build-essential and autoconf packages to
+* In Debian need to install `build-essential`, `libtool` and `autoconf` packages to
   build with autoconf.
+* The configure command (for cppunit build) is `./configure`.

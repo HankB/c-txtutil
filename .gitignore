@@ -31,3 +31,9 @@
 # Debug files
 *.dSYM/
 *.su
+
+# dependancy files?
+*.d
+
+# executables
+cpputest-starter-project/example_tests

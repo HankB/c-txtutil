@@ -5,5 +5,6 @@
 
 // internal APIs
 const char * endLine(const char *str);
+const char* formatLine(int byteIndex, const char* data, int dataLen);
 
 #endif // TXTUTIL_H

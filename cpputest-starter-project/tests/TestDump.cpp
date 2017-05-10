@@ -19,12 +19,12 @@ extern "C" {
 #include "txtutil.h"
 }
 
-TEST_GROUP(Dump){
+TEST_GROUP(txtutil){
     void setup(){}
 
     void teardown(){}};
 
-TEST(Dump, test_endLine)
+TEST(txtutil, test_endLine)
 {
     // test endLine
     STRCMP_EQUAL("                 |hello world|", endLine("hello world"))
@@ -35,7 +35,7 @@ TEST(Dump, test_endLine)
     STRCMP_EQUAL("  |hello world agai|", endLine("hello world agai"))
     STRCMP_EQUAL("  |hello world agai|", endLine("hello world again")) // pathological case
 }
-TEST(Dump, test_formatLine)
+TEST(txtutil, test_formatLine)
 {
     // test formatLine
     STRCMP_EQUAL("00000000  00 65 6c 6c 6f                                    |.ello|", formatLine(0, "\0ello", 5))

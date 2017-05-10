@@ -4,6 +4,6 @@
 #define TXTUTIL_H
 
 // internal APIs
-int endLine(const char *str, unsigned int len);
+const char * endLine(const char *str);
 
 #endif // TXTUTIL_H

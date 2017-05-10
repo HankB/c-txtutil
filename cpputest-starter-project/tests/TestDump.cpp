@@ -1,4 +1,5 @@
 #include "CppUTest/TestHarness.h"
+
 /** @file Test output routines.
  *
  * The overall strategy is to redirect output to
@@ -35,7 +36,7 @@ TEST(Dump, test1)
     /*
      * Instantiate your class, or call the function, you want to test
      */
-     FAIL("fail")
- 
+     STRCMP_EQUAL("                 |hello world|", endLine("hello world"))
+
 }
 

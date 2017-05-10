@@ -44,11 +44,12 @@ TEST(Dump, test_formatLine)
     STRCMP_EQUAL("0000000a                                                    ||", formatLine(10, "", 0))
 
     // check all possible data values
-    char    testStr[] = "hello";
-    char    testOut[] = "00000000  00 65 6c 6c 6f                                    |.ello|";
-    for(int i=0; i<256; i++) {
+    char testStr[] = "hello";
+    char testOut[] = "00000000  00 65 6c 6c 6f                                    |.ello|";
+    for (int i = 0; i < 256; i++)
+    {
         testStr[0] = i;
-        sprintf(testOut, "00000000  %2.2x 65 6c 6c 6f                                    |%cello|", (unsigned int)(i & 0xFF), isprint(i)?i:'.');
+        sprintf(testOut, "00000000  %2.2x 65 6c 6c 6f                                    |%cello|", (unsigned int)(i & 0xFF), isprint(i) ? i : '.');
         fprintf(stderr, "%s\n", formatLine(0, testStr, 5)); // eyeball output
         STRCMP_EQUAL(testOut, formatLine(0, testStr, 5));
     }

@@ -37,7 +37,7 @@ TEST(txtutil, test_formatLine)
     STRCMP_EQUAL("00000000  00 65 6c 6c 6f                                    |.ello|", formatLine(0, "\0ello", 5))
     STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64                 |hello world|", formatLine(0, "hello world", 11))
     STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|", formatLine(0, "hello world agai", 16))
-    STRCMP_EQUAL("0000000a                                                    ||", formatLine(10, "", 0))
+    STRCMP_EQUAL("0000000a", formatLine(10, "", 0))
 
     // check all possible data values
     char testStr[] = "hello";
@@ -86,13 +86,13 @@ const char *getOut(void) {
 
 TEST(dump, test_dump)
 {
-    // test formatLine
+    // test dump
     dump("hello", 5);
-    STRCMP_EQUAL("00000000  68 65 6c 6c 6f                                    |hello|", getOut())
-    dump("\00ello", 5);
-    STRCMP_EQUAL("00000000  00 65 6c 6c 6f                                    |.ello|", getOut())
-    // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64                 |hello world|", dump("hello world", 11))
-    // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|", dump("hello world agai", 16))
-    // STRCMP_EQUAL("0000000a                                                    ||", dump("", 0))
+    STRCMP_EQUAL("00000000  68 65 6c 6c 6f                                    |hello|\n00000005\n", getOut())
+    // dump("\00ello", 5);
+    // STRCMP_EQUAL("00000000  00 65 6c 6c 6f                                    |.ello|", getOut())
+    // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64                 |hello world|", getOut())
+    // // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|", dump("hello world agai", 16))
+    // // STRCMP_EQUAL("0000000a                                                    ||", dump("", 0))
 
 }

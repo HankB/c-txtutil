@@ -7,10 +7,6 @@
  * compare with expected output.
  */
 
-// size of buffer used to capture output
-// #define BUF_SIZE    4096
-// static char buf[BUF_SIZE];
-
 extern "C" {
 /*
 	 * You can add your c-only include files here
@@ -50,7 +46,51 @@ TEST(txtutil, test_formatLine)
     {
         testStr[0] = i;
         sprintf(testOut, "00000000  %2.2x 65 6c 6c 6f                                    |%cello|", (unsigned int)(i & 0xFF), isprint(i) ? i : '.');
-        fprintf(stderr, "%s\n", formatLine(0, testStr, 5)); // eyeball output
+        // fprintf(stderr, "%s\n", formatLine(0, testStr, 5)); // eyeball output
         STRCMP_EQUAL(testOut, formatLine(0, testStr, 5));
     }
+}
+
+// code for capturing output of the dump() API for testing purposes
+static FILE *fp;
+static FILE *oldFp;
+#define BUF_SIZE (1024*16)
+char buf[BUF_SIZE];
+const char *scratchFileName = "/tmp/TDD_test_file.txt";
+
+TEST_GROUP(dump){
+
+    void setup(){
+        fp = fopen(scratchFileName, "w+");
+        if (fp == NULL)
+        {
+            fprintf(stderr, "Cannot open \"%s\"\n", scratchFileName);
+            exit(1);
+        }
+        oldFp = setStdout(fp);
+    }
+
+    void teardown()
+    {
+        setStdout(oldFp);
+        fclose(fp);
+    }
+};
+
+const char *getOut(void) {
+    fseek(fp, 0, SEEK_SET);
+    fread(buf, BUF_SIZE, 1, fp);
+    fseek(fp, 0, SEEK_SET);
+    return buf;
+}
+
+TEST(dump, test_dump)
+{
+    // test formatLine
+    dump("\0ello", 5);
+    STRCMP_EQUAL("00000000  00 65 6c 6c 6f                                    |.ello|", getOut())
+    // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64                 |hello world|", dump("hello world", 11))
+    // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|", dump("hello world agai", 16))
+    // STRCMP_EQUAL("0000000a                                                    ||", dump("", 0))
+
 }

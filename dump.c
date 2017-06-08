@@ -82,7 +82,7 @@ const char *endLine(const char *str)
     return line;
 }
 
-/** @brief format a line of the 'hesdump' output
+/** @brief format a line of the 'hexdump' output
  * @param index of the first byte in the data.
  * @param pointer to the data
  * @param number of bytes of valid data in data
@@ -125,17 +125,19 @@ const char *formatLine(int byteIndex, const char *data, int dataLen)
 void dump(const char* data, size_t dataLen)
 {
     int     i=0;
+    // fprintf(stderr, "d=len %ld count %d\n", dataLen, count);
 
     if(dataLen >= count)
         for(i=0; i<dataLen-count; i += count)
-            fprintf(fp, "%s\n", formatLine(i, data+i, count));
+            fprintf(fp, "%s", formatLine(i, data+i, count));
 
-    fprintf(stderr, "mod %ld, i %d\n", dataLen%count, i);
+    // fprintf(stderr, "mod %ld, i %d\n", dataLen%count, i);
+
     if(dataLen%count != 0) {
-        formatLine(i, data+i, dataLen%count);
+        fprintf(fp, "%s", formatLine(i, data+i, dataLen%count));
         i += dataLen%count;
     }
 
-    formatLine(i, data+i, dataLen%count);
+    //fprintf(fp, "%s", formatLine(i, data+i, dataLen%count));
     return;
 }

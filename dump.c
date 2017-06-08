@@ -121,3 +121,21 @@ const char *formatLine(int byteIndex, const char *data, int dataLen)
 
     return line;
 }
+
+void dump(const char* data, size_t dataLen)
+{
+    int     i=0;
+
+    if(dataLen >= count)
+        for(i=0; i<dataLen-count; i += count)
+            fprintf(fp, "%s\n", formatLine(i, data+i, count));
+
+    fprintf(stderr, "mod %ld, i %d\n", dataLen%count, i);
+    if(dataLen%count != 0) {
+        formatLine(i, data+i, dataLen%count);
+        i += dataLen%count;
+    }
+
+    formatLine(i, data+i, dataLen%count);
+    return;
+}

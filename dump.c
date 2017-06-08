@@ -117,7 +117,7 @@ const char *formatLine(int byteIndex, const char *data, int dataLen)
         asciiRep[i + 1] = '\0'; // terminate string
     }
 
-    if(dataLen > 0)
+    if (dataLen > 0)
         strncat(line, endLine(asciiRep), LINE_BUF_LEN);
     else
         line[8] = '\0'; // truncate trailing ' '
@@ -125,24 +125,23 @@ const char *formatLine(int byteIndex, const char *data, int dataLen)
     return line;
 }
 
-void dump(const char* data, size_t dataLen)
+void dump(const char *data, size_t dataLen)
 {
-    int     i=0;
+    int i = 0;
 
     // print full lines if there is more than one line of data
-    if(dataLen >= count)
-        for(i=0; i<dataLen-count; i += count)
-            fprintf(fp, "%s\n", formatLine(i, data+i, count));
-
-    // fprintf(stderr, "mod %ld, i %d\n", dataLen%count, i);
+    if (dataLen >= count)
+        for (i = 0; i <= dataLen - count; i += count)
+            fprintf(fp, "%s\n", formatLine(i, data + i, count));
 
     // print partial line when lest than a line's worth of data is left
-    if(dataLen%count != 0) {
-        fprintf(fp, "%s\n", formatLine(i, data+i, dataLen%count));
-        i += dataLen%count;
+    if (dataLen % count != 0)
+    {
+        fprintf(fp, "%s\n", formatLine(i, data + i, dataLen % count));
+        i += dataLen % count;
     }
 
     // print trailing line
-    fprintf(fp, "%s\n", formatLine(i, data+i, 0));
+    fprintf(fp, "%s\n", formatLine(i, data + i, 0));
     return;
 }

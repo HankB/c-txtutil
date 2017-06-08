@@ -143,6 +143,6 @@ void dump(const char* data, size_t dataLen)
     }
 
     // print trailing line
-    fprintf(fp, "%s\n", formatLine(i, data+i, dataLen%count));
+    fprintf(fp, "%s\n", formatLine(i, data+i, 0));
     return;
 }

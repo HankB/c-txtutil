@@ -87,7 +87,9 @@ const char *getOut(void) {
 TEST(dump, test_dump)
 {
     // test formatLine
-    dump("\0ello", 5);
+    dump("hello", 5);
+    STRCMP_EQUAL("00000000  68 65 6c 6c 6f                                    |hello|", getOut())
+    dump("\00ello", 5);
     STRCMP_EQUAL("00000000  00 65 6c 6c 6f                                    |.ello|", getOut())
     // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64                 |hello world|", dump("hello world", 11))
     // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|", dump("hello world agai", 16))

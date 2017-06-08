@@ -89,10 +89,16 @@ TEST(dump, test_dump)
     // test dump
     dump("hello", 5);
     STRCMP_EQUAL("00000000  68 65 6c 6c 6f                                    |hello|\n00000005\n", getOut())
-    // dump("\00ello", 5);
-    // STRCMP_EQUAL("00000000  00 65 6c 6c 6f                                    |.ello|", getOut())
-    // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64                 |hello world|", getOut())
-    // // STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|", dump("hello world agai", 16))
+    dump("\00ello", 5);
+    STRCMP_EQUAL("00000000  00 65 6c 6c 6f                                    |.ello|\n00000005\n", getOut())
+    dump("hello world", 11);
+    STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64                 |hello world|\n0000000b\n", getOut())
+    dump("hello world aga", 15);
+    STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61     |hello world aga|\n0000000f\n", getOut())
+    dump("hello world agai", 16);
+    STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|\n00000010\n", getOut())
+    dump("hello world again", 17);
+    STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|\n00000010  6e                                                |n|\n00000011\n", getOut())
     // // STRCMP_EQUAL("0000000a                                                    ||", dump("", 0))
 
 }

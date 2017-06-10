@@ -20,17 +20,17 @@ TEST_GROUP(txtutil){
 
     void teardown(){}};
 
-TEST(txtutil, test_endLine)
-{
+TEST(txtutil, test_endLine){
     // test endLine
-    STRCMP_EQUAL("                 |hello world|", endLine("hello world"))
-    STRCMP_EQUAL("                                             |hd|", endLine("hd"))
-    STRCMP_EQUAL("                                                   ||", endLine(""))
-    STRCMP_EQUAL("                           |hello wo|", endLine("hello wo"))
-    STRCMP_EQUAL("                       |hello wor|", endLine("hello wor"))
-    STRCMP_EQUAL("  |hello world agai|", endLine("hello world agai"))
-    STRCMP_EQUAL("  |hello world agai|", endLine("hello world again")) // pathological case
-}
+    STRCMP_EQUAL("                 |hello world|", endLine("hello world"));
+    STRCMP_EQUAL("                                             |hd|", endLine("hd"));
+    STRCMP_EQUAL("                                                   ||", endLine(""));
+    STRCMP_EQUAL("                           |hello wo|", endLine("hello wo"));
+    STRCMP_EQUAL("                       |hello wor|", endLine("hello wor"));
+    STRCMP_EQUAL("  |hello world agai|", endLine("hello world agai"));
+    STRCMP_EQUAL("  |hello world agai|", endLine("hello world again")); // pathological case
+} 
+
 TEST(txtutil, test_formatLine)
 {
     // test formatLine
@@ -54,33 +54,49 @@ TEST(txtutil, test_formatLine)
 // code for capturing output of the dump() API for testing purposes
 static FILE *fp;
 static FILE *oldFp;
-#define BUF_SIZE (1024*16)
+#define BUF_SIZE (1024 * 16)
 char buf[BUF_SIZE];
 const char *scratchFileName = "/tmp/TDD_test_file.txt";
+const char *scratchPrevFileName = "/tmp/prevTDD_test_file.txt";
 
 TEST_GROUP(dump){
 
     void setup(){
         fp = fopen(scratchFileName, "w+");
-        if (fp == NULL)
-        {
-            fprintf(stderr, "Cannot open \"%s\"\n", scratchFileName);
-            exit(1);
-        }
-        oldFp = setStdout(fp);
-    }
+if (fp == NULL)
+{
+    fprintf(stderr, "Cannot open \"%s\"\n", scratchFileName);
+    exit(1);
+}
+oldFp = setStdout(fp);
+}
 
-    void teardown()
+void teardown()
+{
+    setStdout(oldFp);
+    fclose(fp);
+}
+}
+;
+
+const char *getOut(void)
+{
+    size_t bytesRead;
+    fseek(fp, 0, SEEK_SET);                  // sek to start of file
+    bytesRead = fread(buf, 1, BUF_SIZE, fp); // read contents
+    buf[bytesRead] = '\0';                   // null terminate the input
+    fclose(fp);                              // close the file
+    if (rename(scratchFileName, scratchPrevFileName))
+    { // rename so we can examine contents (if necessary)
+        fprintf(stderr, "file rename error\n");
+        exit(1);
+    }
+    fp = fopen(scratchFileName, "w+"); // open the file again
+    if (fp == NULL)
     {
-        setStdout(oldFp);
-        fclose(fp);
+        fprintf(stderr, "Cannot open \"%s\"\n", scratchFileName);
+        exit(1);
     }
-};
-
-const char *getOut(void) {
-    fseek(fp, 0, SEEK_SET);
-    fread(buf, BUF_SIZE, 1, fp);
-    fseek(fp, 0, SEEK_SET);
     return buf;
 }
 
@@ -99,6 +115,15 @@ TEST(dump, test_dump)
     STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|\n00000010\n", getOut())
     dump("hello world again", 17);
     STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|\n00000010  6e                                                |n|\n00000011\n", getOut())
-    // // STRCMP_EQUAL("0000000a                                                    ||", dump("", 0))
+    dump("hello world agai", 16);
+    STRCMP_EQUAL("00000000  68 65 6c 6c 6f 20 77 6f  72 6c 64 20 61 67 61 69  |hello world agai|\n00000010\n", getOut())
 
+// Now a much bigger buffer
+#define BUFLEN 256
+    char buf[BUFLEN];
+    for (int i = 0; i < BUFLEN; i++)
+        buf[i] = i;
+        
+    dump(buf, 16);
+    STRCMP_EQUAL("00000000  00 01 02 03 04 05 06 07  08 09 0a 0b 0c 0d 0e 0f  |................|\n00000010\n", getOut())
 }

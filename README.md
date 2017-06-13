@@ -7,7 +7,7 @@ duplicate the functionality in .../txtutil (written originally in Go,
 * CppUTest integrated into project (`https://github.com/cpputest/cpputest`,
   `https://github.com/jwgrenning/cpputest-starter-project`)
 * endLine() and formatLine() and successful tests for both coded.
-* partial implementation of dump(). Needs further testing.
+* dump() implemented. Logging (to console) next
 
 ## Dependencies
 

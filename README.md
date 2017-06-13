@@ -35,7 +35,9 @@ make
 ## Errata
 
 * cmake instructions did not work for cpputest. (Even after typing 
- `cmake CMakeLists.txt` instead of `cmake CMakeList.txt`
+ `cmake CMakeLists.txt` instead of `cmake CMakeList.txt`)
 * In Debian need to install `build-essential`, `libtool` and `autoconf` packages to
-  build with autoconf.
-* The configure command (for cppunit build) is `./configure`.
+  build cppunit with autoconf.
+* The configure command (for cppunit build) is `./configure`. 
+* There are way too many extaneous files in the project due to the addition of 
+  the cpputest-starter-project and eliminating them is messy. They remain.

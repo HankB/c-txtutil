@@ -56,9 +56,9 @@ TEST(txtutil, test_formatLine)
 static FILE *fp;
 static FILE *oldFp;
 #define BUF_SIZE (1024 * 16)
-char buf[BUF_SIZE];
-const char *scratchFileName = "/tmp/TDD_test_file.txt";
-const char *scratchPrevFileName = "/tmp/prevTDD_test_file.txt";
+static char buf[BUF_SIZE];
+static const char *scratchFileName = "/tmp/TDD_test_file.txt";
+static const char *scratchPrevFileName = "/tmp/prevTDD_test_file.txt";
 
 TEST_GROUP(dump){
 
@@ -89,7 +89,7 @@ TEST_GROUP(dump){
  * NOTE: file names will clash if more than one user runs this test
  * at the same time!
  */
-const char *getOut(void)
+static const char *getOut(void)
 {
     size_t bytesRead;
     fseek(fp, 0, SEEK_SET);                  // sek to start of file

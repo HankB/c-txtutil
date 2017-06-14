@@ -13,6 +13,22 @@
 #include "txtutil.h"
 
 static int    reqdLogPri = 3;
+static FILE *fp = NULL;
+
+/** @brief change output FILE *
+ *
+ * @param New FILE* to use for output
+ * @retval previous FILE*
+ */
+FILE *setLogout(FILE *newFp)
+{
+    // init fp if needed
+    if(fp == NULL)
+        fp = stdout;
+    FILE *prevFp = fp;
+    fp = newFp;
+    return prevFp;
+}
 
 /** @brief Retrieve present priority level
  * 
@@ -33,4 +49,26 @@ int setLogPri(int newPri)
     int prevPri = reqdLogPri;
     reqdLogPri = newPri;
     return prevPri;
+}
+
+/** @brief send logging output if priority met
+ * 
+ * @param Assigned priority for this message
+ * @param Format string (as with printf())
+ * @retval Required priority
+ */
+int logmsg(int pri, const char *format, ...)
+{
+    if(pri >= reqdLogPri)
+    {
+        va_list argp;
+        va_start(argp, format);
+        int retval = vfprintf(fp, format, argp);
+        va_end(argp);
+        return retval;
+    }
+    else
+    {
+        return 0;
+    }
 }

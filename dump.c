@@ -35,6 +35,9 @@ static int count = 16;
  */
 FILE *setStdout(FILE *newFp)
 {
+    // init fp if needed
+    if(fp == NULL)
+        fp = stdout;
     FILE *prevFp = fp;
     fp = newFp;
     return prevFp;
@@ -128,6 +131,11 @@ const char *formatLine(int byteIndex, const char *data, int dataLen)
 void dump(const char *data, size_t dataLen)
 {
     int i = 0;
+
+    // init fp if needed
+    if(fp == NULL)
+        fp = stdout;
+
 
     // print full lines if there is more than one line of data
     if (dataLen >= count)

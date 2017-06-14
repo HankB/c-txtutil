@@ -12,6 +12,8 @@ FILE *setStdout(FILE *newFp);
 void dump(const char* data, size_t count);
 int getLogPri(void);
 int setLogPri(int newPri);
+int logmsg(int pri, const char *format, ...);
+FILE *setLogout(FILE *newFp);
 
 
 #endif // TXTUTIL_H

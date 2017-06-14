@@ -88,9 +88,20 @@ TEST(log, test_logOut)
 {
     CHECK(oldFp == stdout)
     CHECK(logmsg(0, "Hello World") == 0)
+
     CHECK(logmsg(3, "Hello World") == 11)
     STRCMP_EQUAL("Hello World", getOut())
+
     CHECK(logmsg(3, "%s", "Goodbye World") == 13)
     STRCMP_EQUAL("Goodbye World", getOut())
 
+    CHECK(logmsg(5, "Testing priority %d", 5) == 18)
+    STRCMP_EQUAL("Testing priority 5", getOut())
+
+    CHECK(setLogPri(4) == 3)
+
+    CHECK(logmsg(3, "Hello World") == 0)
+    STRCMP_EQUAL("", getOut())
+
+    CHECK(setLogPri(3) == 4)
 }

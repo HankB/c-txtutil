@@ -10,5 +10,8 @@ const char* formatLine(int byteIndex, const char* data, int dataLen);
 // public APIs
 FILE *setStdout(FILE *newFp);
 void dump(const char* data, size_t count);
+int getLogPri(void);
+int setLogPri(int newPri);
+
 
 #endif // TXTUTIL_H
